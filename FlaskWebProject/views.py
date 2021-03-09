@@ -13,13 +13,7 @@ from FlaskWebProject.models import User, Post
 import msal
 import uuid
 
-imageSourceUrl = (
-    "https://"
-    + app.config["BLOB_ACCOUNT"]
-    + ".blob.core.windows.net/"
-    + app.config["BLOB_CONTAINER"]
-    + "/"
-)
+imageSourceUrl = f"https://{app.config['BLOB_ACCOUNT']}.blob.core.windows.net/{app.config['BLOB_CONTAINER']}/"
 
 
 @app.route("/")
@@ -108,10 +102,7 @@ def logout():
         session.clear()
         # Also logout from your tenant's web session
         return redirect(
-            Config.AUTHORITY
-            + "/oauth2/v2.0/logout"
-            + "?post_logout_redirect_uri="
-            + url_for("login", _external=True)
+            f"{Config.AUTHORITY}/oauth2/v2.0/logout?post_logout_redirect_uri={url_for('login', _external=True)}"
         )
 
     return redirect(url_for("login"))
